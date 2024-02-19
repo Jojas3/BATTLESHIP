@@ -1,84 +1,39 @@
 //temp import
 import java.util.*;
+//this class deals with ship placement at beginning of round
+public class Ships {
 
-public class Ships extends Service {
-
-
-    //ship coordinate variables
-    private int x1;
-    private int y1;
-    private int x2;
-    private int y2;
-    private boolean hit;
-    private int length;
-    //will have length of all ships
-    private int length(){
-        return length;
-    }
-
-
+    Service obj = new Service();
     public Ships(int length, int x1, int y1, int x2, int y2, boolean hit) {
-        this.length = length;
-        this.x1 = x1;
-        this.y1 = y1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.hit = isHit();
+        this.obj.setLength(length);
+        this.obj.setX1(x1);
+        this.obj.setY1(y1);
+        this.obj.setX2(x2);
+        this.obj.setY2(y2);
+        this.obj.setHit(this.obj.isHit());
     }
-    Ships ship1 = new Ships(length, x1, y1,0, 0, isHit());
-    Ships ship2 = new Ships(length, 0, 0, x2, y2, isHit());
 
-    //method that handles placing ships at the beginning of the round
     public static void placeShips() {
-        System.out.println("Place your ships!");
-        Scanner input = new Scanner(System.in);
 
-        //example of try catch loop, just for funsies
-        try {
-            //get user input for coordinates. Maybe later can update so they click or drag to place
-            System.out.println("Enter ship x coordinate: ");
-            int x = input.nextInt();
-            System.out.println("Enter ship y coordinate: ");
-            int y = input.nextInt();
-        }catch (InputMismatchException e) {
-            //makes sure the user enters an integer
-            System.out.println("ERROR: You need to enter an integer.");
-            input.next();
-            //start over
-            placeShips();
-        }
-    }
+        System.out.println("Placing ships randomly...");
+        Random rand = new Random();
+        Service obj = new Service();
+        obj.setX1(rand.nextInt((10) + 1));
+        obj.setY1(rand.nextInt((10) + 1));
 
-    public int getX1() {
-        return x1;
-    }
+        //hiii
+        obj.setX2(rand.nextInt((10) + 1));
+        obj.setY2(rand.nextInt((10) + 1));
 
-    public void setX1(int x1) {
-        this.x1 = x1;
-    }
 
-    public int getY1() {
-        return y1;
-    }
+        Ships ships1 = new Ships(1, obj.getX1(), obj.getY1(), 0, 0, false);
+        System.out.println("Player 1 Ships Placed!");
 
-    public void setY1(int y1) {
-        this.y1 = y1;
-    }
+        Ships ships2 = new Ships(1, 0, 0, obj.getX2(), obj.getY2(), false);
+        System.out.println("Player 2 Ships Placed!");
 
-    public int getX2() {
-        return x2;
-    }
 
-    public void setX2(int x2) {
-        this.x2 = x2;
-    }
+        /* Ship placement is random and only one ship for now*/
 
-    public int getY2() {
-        return y2;
-    }
-
-    public void setY2(int y2) {
-        this.y2 = y2;
     }
 }
-

@@ -1,5 +1,9 @@
 //pretend this is a server
 public class Service {
+    /*a part of me feels like i have too many getters and setters and private variables
+    but also i can see future use cases where other methods in other classes would need these,
+    for now this is all i can think of.... feedback welcome*/
+
     //set true when game is active, set false when game-over
     private static boolean gameStatus;
 
@@ -15,19 +19,70 @@ public class Service {
     //stats tracking p2
     private int p2ShotsHit, p2ShotsMiss;
 
+    //ship locations
+    private int x1;
+    private int y1;
+    private int x2;
+    private int y2;
+    private int length;
+
+
 
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
-        while(gameStatus){
-
+        System.out.println("Starting game!!!");
+        while(isGameStatus()) {
+            Turn.playerOne();
+            Turn.playerTwo();
         }
+        System.out.println("GAME OVER. Thank you for playing!");
+
     }
 
 
 
-
     //getters and setters
+    public int getX1() {
+        return this.x1;
+    }
+
+    public void setX1(int x1) {
+        this.x1 = x1;
+    }
+
+    public int getY1() {
+        return this.y1;
+    }
+
+    public void setY1(int y1) {
+        this.y1 = y1;
+    }
+
+    public int getX2() {
+        return this.x2;
+    }
+
+    public void setX2(int x2) {
+        this.x2 = x2;
+    }
+
+    public int getY2() {
+        return this.y2;
+    }
+
+    public void setY2(int y2) {
+        this.y2 = y2;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     public static boolean isGameStatus() {
         return gameStatus;
     }
