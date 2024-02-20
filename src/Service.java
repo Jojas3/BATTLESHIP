@@ -1,11 +1,13 @@
 //pretend this is a server
 public class Service {
     /*a part of me feels like i have too many getters and setters and private variables
-    but also i can see future use cases where other methods in other classes would need these,
-    for now this is all i can think of.... feedback welcome*/
+    but also i can see future use cases where other methods in other classes would need these.
+    Is this a normal amount to have? */
 
     //set true when game is active, set false when game-over
-    private static boolean gameStatus;
+    public static boolean gameStatus;
+    //True if two players, false if single player.
+    private static boolean multiplayer;
 
     //keeps track of the number of player ships remaining on the board
     private int playerOneShips, playerTwoShips;
@@ -19,20 +21,25 @@ public class Service {
     //stats tracking p2
     private int p2ShotsHit, p2ShotsMiss;
 
-    //ship locations
+    //ship location, player1
     private int x1;
     private int y1;
+
+    //ship location, player2
     private int x2;
     private int y2;
-    private int length;
 
+    //ship length
+    private int length;
 
 
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
         System.out.println("Starting game!!!");
-        while(isGameStatus()) {
+
+
+        while(gameStatus) {
             Turn.playerOne();
             Turn.playerTwo();
         }
@@ -40,9 +47,21 @@ public class Service {
 
     }
 
-
-
     //getters and setters
+    private static void setMultiplayer(boolean multiplayer) {
+
+        System.out.println("Are you playing alone?");
+
+        Service.multiplayer = multiplayer;
+    }
+    public static boolean isMultiplayer() {
+        return multiplayer;
+    }
+
+
+
+
+
     public int getX1() {
         return this.x1;
     }
@@ -83,13 +102,14 @@ public class Service {
         this.length = length;
     }
 
-    public static boolean isGameStatus() {
+    public boolean isGameStatus() {
         return gameStatus;
     }
 
-    public static void setGameStatus(boolean gameStatus) {
+    public void setGameStatus(boolean gameStatus) {
         Service.gameStatus = gameStatus;
     }
+
 
     public int getPlayerOneShips() {
         return playerOneShips;
