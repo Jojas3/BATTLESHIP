@@ -1,5 +1,4 @@
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 //pretend this is a server
 public class Service {
@@ -39,7 +38,6 @@ public class Service {
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
-        setMultiplayer();
         System.out.println("Starting game!!!");
 
 
@@ -52,7 +50,7 @@ public class Service {
     }
 
     //getters and setters
-    private static void setMultiplayer() {
+    protected static void setMultiplayer() {
         boolean multiplayer=false;
         Scanner input = new Scanner(System.in);
         System.out.println("\nAre you playing alone? \n");

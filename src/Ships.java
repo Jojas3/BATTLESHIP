@@ -41,6 +41,7 @@ public class Ships {
 
 
     public static void placeShips() {
+        Service.setMultiplayer();
         setPlayer1Ships();
         setPlayer2Ships();
     }
