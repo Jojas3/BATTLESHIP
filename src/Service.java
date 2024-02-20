@@ -2,9 +2,6 @@ import java.util.*;
 
 //pretend this is a server
 public class Service {
-    /*a part of me feels like i have too many getters and setters and private variables
-    but also i can see future use cases where other methods in other classes would need these.
-    Is this a normal amount to have? */
 
     //set true when game is active, set false when game-over
     private static boolean gameStatus;
@@ -25,26 +22,28 @@ public class Service {
 
     //ship location, player1
     private int x1;
-    private int y1;
+    private String y1;
 
     //ship location, player2
     private int x2;
-    private int y2;
+    private String y2;
+
+    //y letter bound
+    private static String yBound = "abcdefghij";
 
     //ship length
-    private int length;
+    //private int length;
 
 
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
+        Service obj = new Service();
         System.out.println("Starting game!!!");
 
-
-        while(gameStatus) {
-            Turn.playerOne();
-            Turn.playerTwo();
-        }
+        do {
+            Turn.Turns();
+        }while(obj.getPlayerOneShips() != 0 && obj.getPlayerTwoShips() != 0);
         System.out.println("GAME OVER. Thank you for playing!");
 
     }
@@ -66,13 +65,53 @@ public class Service {
         }
         Service.multiplayer = multiplayer;
     }
+    protected static String setY(){
+        Scanner input = new Scanner(System.in);
+        String y;
+        while (true) {
+            try {
+                System.out.print("Enter ship Y coordinate (must be within a and j)");
+                y = input.nextLine();
+                if( y.indexOf(yBound)<=(yBound.length()-1)){
+                    break;
+                }
+                System.out.println("Ship Y coordinate must be within a and j!! Try again.");
+
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR: You need to enter a LETTER between a and j. Try again.");
+                input.nextLine();
+            }
+        }
+        return y;
+    }
+    protected static int setX(){
+        Scanner input = new Scanner(System.in);
+
+        int x=0;
+        while (true) {
+            try {
+                System.out.print("Enter ship X coordinate (must be within 0 and 9)");
+                x = input.nextInt();
+                if( x >= 0 && x <= 9){
+                    break;
+                }
+                System.out.println("Ship X coordinate must be within 0 and 9!! Try again.");
+
+            } catch (InputMismatchException e) {
+                System.out.println("You did not enter a Integer.");
+                input.nextLine();
+            }
+        }
+        return x;
+    }
     public static boolean isMultiplayer() {
         return multiplayer;
     }
 
 
-
-
+    public String getyBound() {
+        return yBound;
+    }
 
     public int getX1() {
         return this.x1;
@@ -82,11 +121,11 @@ public class Service {
         this.x1 = x1;
     }
 
-    public int getY1() {
+    public String getY1() {
         return this.y1;
     }
 
-    public void setY1(int y1) {
+    public void setY1(String y1) {
         this.y1 = y1;
     }
 
@@ -98,21 +137,21 @@ public class Service {
         this.x2 = x2;
     }
 
-    public int getY2() {
+    public String getY2() {
         return this.y2;
     }
 
-    public void setY2(int y2) {
+    public void setY2(String y2) {
         this.y2 = y2;
     }
 
-    public int getLength() {
+    /*public int getLength() {
         return length;
     }
 
     public void setLength(int length) {
         this.length = length;
-    }
+    }*/
 
     public boolean isGameStatus() {
         return gameStatus;
