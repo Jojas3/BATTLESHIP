@@ -12,7 +12,7 @@ public class Service {
     //list of all guesses the computer has made
     private String p1Guesses, p2Guesses;
 
-    //keeps track of the number of player ships remaining on the board
+    //keeps track of the number of player ships remaining on the board, will be used if I add more than one ship
     private int playerOneShips, playerTwoShips;
 
     //checks if shots are hit
@@ -43,7 +43,6 @@ public class Service {
     //this method will loop player turns until game-over
     public static void gameLoop() {
         setGameStatus(true);
-        Service obj = new Service();
         System.out.println("\nStarting game!!!\n");
 
         Turn.Turns();
@@ -60,8 +59,9 @@ public class Service {
         String yn = input.nextLine();
         try{
             if(yn.equalsIgnoreCase("yes")){
-                multiplayer = false;
+                System.out.println("Continuing to Single Player Mode...");
             }else if (yn.equalsIgnoreCase("no")) {
+                System.out.println("Continuing to Two Player Mode...");
                 multiplayer = true;
             }else{
                 System.out.println("ERROR: You must enter 'yes' or 'no'");
@@ -95,7 +95,7 @@ public class Service {
     protected static int setX(){
         Scanner input = new Scanner(System.in);
 
-        int x=0;
+        int x;
         while (true) {
             try {
                 System.out.print("Enter ship X coordinate (must be within 0 and 9)");

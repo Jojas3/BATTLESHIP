@@ -119,15 +119,8 @@ public class Turn {
         System.out.println("End of Player Two's Turn.");
 
     }
-    public static void gameOver(){
-        System.out.println("YOU WIN! Goodbye.");
-        exit(0);
-
-    }
     //turn goes until computer misses
     public static void playerComputer(){
-        Random rand = new Random();
-        Service obj = new Service();
         System.out.println("The computer is guessing your location...");
 
         computerGuess();
@@ -136,7 +129,6 @@ public class Turn {
         System.out.println("End of Computer's Turn.");
     }
     public static void Turns() {
-        Service obj= new Service();
         while(Service.isGameStatus()) {
             playerOne();
             if (Service.isMultiplayer()) {
