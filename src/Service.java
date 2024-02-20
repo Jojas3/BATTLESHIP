@@ -1,3 +1,6 @@
+import java.util.Objects;
+import java.util.Scanner;
+
 //pretend this is a server
 public class Service {
     /*a part of me feels like i have too many getters and setters and private variables
@@ -5,7 +8,7 @@ public class Service {
     Is this a normal amount to have? */
 
     //set true when game is active, set false when game-over
-    public static boolean gameStatus;
+    private static boolean gameStatus;
     //True if two players, false if single player.
     private static boolean multiplayer;
 
@@ -36,6 +39,7 @@ public class Service {
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
+        setMultiplayer();
         System.out.println("Starting game!!!");
 
 
@@ -48,10 +52,20 @@ public class Service {
     }
 
     //getters and setters
-    private static void setMultiplayer(boolean multiplayer) {
-
-        System.out.println("Are you playing alone?");
-
+    private static void setMultiplayer() {
+        boolean multiplayer=false;
+        Scanner input = new Scanner(System.in);
+        System.out.println("\nAre you playing alone? \n");
+        System.out.println("Enter yes or no: ");
+        String yn = input.nextLine();
+        if(yn.equalsIgnoreCase("yes")){
+            multiplayer = false;
+        }else if (yn.equalsIgnoreCase("no")) {
+            multiplayer = true;
+        }else{
+            System.out.println("ERROR: You must enter 'yes' or 'no'");
+            setMultiplayer();
+        }
         Service.multiplayer = multiplayer;
     }
     public static boolean isMultiplayer() {

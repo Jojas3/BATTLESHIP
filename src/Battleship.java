@@ -3,8 +3,6 @@ import java.util.*;
 public class Battleship {
 
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        Random rand = new Random();
     /* i want to have a start button preceded a splash screen
         that includes the game logo/a logo i create */
 
