@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 //pretend this is a server
@@ -7,6 +8,9 @@ public class Service {
     private static boolean gameStatus;
     //True if two players, false if single player.
     private static boolean multiplayer;
+
+    //list of all guesses the computer has made
+    private String p1Guesses, p2Guesses;
 
     //keeps track of the number of player ships remaining on the board
     private int playerOneShips, playerTwoShips;
@@ -29,7 +33,7 @@ public class Service {
     private String y2;
 
     //y letter bound
-    private static String yBound = "abcdefghij";
+    private static final String yBound = "abcdefghij";
 
     //ship length
     //private int length;
@@ -38,12 +42,11 @@ public class Service {
 
     //this method will loop player turns until game-over
     public static void gameLoop() {
+        setGameStatus(true);
         Service obj = new Service();
-        System.out.println("Starting game!!!");
+        System.out.println("\nStarting game!!!\n");
 
-        do {
-            Turn.Turns();
-        }while(obj.getPlayerOneShips() != 0 && obj.getPlayerTwoShips() != 0);
+        Turn.Turns();
         System.out.println("GAME OVER. Thank you for playing!");
 
     }
@@ -55,12 +58,17 @@ public class Service {
         System.out.println("\nAre you playing alone? \n");
         System.out.println("Enter yes or no: ");
         String yn = input.nextLine();
-        if(yn.equalsIgnoreCase("yes")){
-            multiplayer = false;
-        }else if (yn.equalsIgnoreCase("no")) {
-            multiplayer = true;
-        }else{
-            System.out.println("ERROR: You must enter 'yes' or 'no'");
+        try{
+            if(yn.equalsIgnoreCase("yes")){
+                multiplayer = false;
+            }else if (yn.equalsIgnoreCase("no")) {
+                multiplayer = true;
+            }else{
+                System.out.println("ERROR: You must enter 'yes' or 'no'");
+                setMultiplayer();
+            }
+        }catch(InputMismatchException e){
+            System.out.println("ERROR: You must enter a string.");
             setMultiplayer();
         }
         Service.multiplayer = multiplayer;
@@ -72,7 +80,7 @@ public class Service {
             try {
                 System.out.print("Enter ship Y coordinate (must be within a and j)");
                 y = input.nextLine();
-                if( y.indexOf(yBound)<=(yBound.length()-1)){
+                if( yBound.contains(y)){
                     break;
                 }
                 System.out.println("Ship Y coordinate must be within a and j!! Try again.");
@@ -153,11 +161,11 @@ public class Service {
         this.length = length;
     }*/
 
-    public boolean isGameStatus() {
+    public static boolean isGameStatus() {
         return gameStatus;
     }
 
-    public void setGameStatus(boolean gameStatus) {
+    public static void setGameStatus(boolean gameStatus) {
         Service.gameStatus = gameStatus;
     }
 
@@ -198,31 +206,47 @@ public class Service {
         return p1ShotsHit;
     }
 
-    public void setP1ShotsHit(int p1ShotsHit) {
-        this.p1ShotsHit = p1ShotsHit;
+    public void setP1ShotsHit() {
+        this.p1ShotsHit+=1;
     }
 
     public int getP1ShotsMiss() {
         return p1ShotsMiss;
     }
 
-    public void setP1ShotsMiss(int p1ShotsMiss) {
-        this.p1ShotsMiss = p1ShotsMiss;
+    public void setP1ShotsMiss() {
+        this.p1ShotsMiss+=1;
     }
 
     public int getP2ShotsHit() {
         return p2ShotsHit;
     }
 
-    public void setP2ShotsHit(int p2ShotsHit) {
-        this.p2ShotsHit = p2ShotsHit;
+    public void setP2ShotsHit() {
+        this.p2ShotsHit+=1;
     }
 
     public int getP2ShotsMiss() {
         return p2ShotsMiss;
     }
 
-    public void setP2ShotsMiss(int p2ShotsMiss) {
-        this.p2ShotsMiss = p2ShotsMiss;
+    public void setP2ShotsMiss() {
+        this.p2ShotsMiss+=1;
+    }
+
+    public void setP2Guesses(String p2Guesses) {
+        this.p2Guesses += (p2Guesses+" ");
+    }
+
+    public String getP2Guesses() {
+        return p2Guesses+"";
+    }
+
+    public String getP1Guesses() {
+        return p1Guesses+"";
+    }
+
+    public void setP1Guesses(String p1Guesses) {
+        this.p1Guesses += (p1Guesses+" ");
     }
 }

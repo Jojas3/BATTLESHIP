@@ -1,5 +1,3 @@
-//temp until project done and I know what needs to be imported
-import java.util.*;
 public class Battleship {
 
     public static void main(String[] args) {

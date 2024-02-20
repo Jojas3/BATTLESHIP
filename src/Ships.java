@@ -15,12 +15,11 @@ public class Ships {
         this.obj.setY2(y2);
         this.obj.setHit(this.obj.isHit());
     }*/
-
+    static ArrayList<String> p1Ships = new ArrayList<String>();
     private static void setPlayer1Ships(){
-        ArrayList<String> p1Ships = new ArrayList<String>();
+
         Service obj = new Service();
         System.out.println("Player 1, place your ships.");
-        Scanner input = new Scanner(System.in);
 
 
         obj.setX1(Service.setX());
@@ -31,8 +30,9 @@ public class Ships {
         System.out.println("Player 1 Ships Placed!");
 
     }
+    static ArrayList<String> p2Ships = new ArrayList<String>();
     private static void setPlayer2Ships(){
-        ArrayList<String> p2Ships = new ArrayList<String>();
+
         Service obj = new Service();
 
         if(Service.isMultiplayer()) {
