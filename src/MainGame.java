@@ -68,8 +68,8 @@ public class MainGame extends JFrame {
         }
 
         public void actionPerformed(ActionEvent e) {
-            JButton clickedButton = (JButton) e.getSource();
             //obtain and print the clicked button. in the future this can be used to store or send data to the server.
+            JButton clickedButton = (JButton) e.getSource();
             System.out.println("Clicked on cell: " + (char)('A' + row) + (column + 1));
         }
     }
