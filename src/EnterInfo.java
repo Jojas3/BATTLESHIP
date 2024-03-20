@@ -26,6 +26,7 @@ public class EnterInfo extends JFrame {
             dispose();
             new MainGame().setVisible(true);
         });
+
         setSize(1000, 900);
         setLocationRelativeTo(null);
     }
