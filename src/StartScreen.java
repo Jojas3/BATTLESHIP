@@ -10,19 +10,17 @@ public class StartScreen extends JFrame{
     public StartScreen(){
         setTitle("BATTLESHIP!");
         add(mainPanel);
+        setSize(1000, 900);
+        setLocationRelativeTo(null);
 
-        onePlayerStart.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                //EnterInfo.setVisibility(true);
-            }
+        onePlayerStart.addActionListener(e -> {
+            dispose();
+            new EnterInfo().setVisible(true);
         });
 
-        twoPlayerStart.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                //EnterInfo.setVisibility(true);
-            }
+        twoPlayerStart.addActionListener(e -> {
+            dispose();
+            new EnterInfo().setVisible(true);
         });
     }
 
