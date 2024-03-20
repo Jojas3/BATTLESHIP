@@ -14,13 +14,17 @@ public class StartScreen extends JFrame{
         setLocationRelativeTo(null);
 
         onePlayerStart.addActionListener(e -> {
+            Service.setMultiplayer(false);
             dispose();
             new EnterInfo().setVisible(true);
+
         });
 
         twoPlayerStart.addActionListener(e -> {
+            Service.setMultiplayer(true);
             dispose();
             new EnterInfo().setVisible(true);
+
         });
     }
 
