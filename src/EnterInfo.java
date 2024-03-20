@@ -1,13 +1,12 @@
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
-import java.awt.event.*;
+
 public class EnterInfo extends JFrame {
     private JPanel mainPanel;
     private JPasswordField passwordField1;
     private JPasswordField passwordField2;
     private JLabel infoTitle;
     private JButton STARTGAMEButton;
+    private JButton backButton;
 
 
     public EnterInfo() {
@@ -25,6 +24,11 @@ public class EnterInfo extends JFrame {
         STARTGAMEButton.addActionListener(e-> {
             dispose();
             new MainGame().setVisible(true);
+        });
+
+        backButton.addActionListener(e-> {
+            dispose();
+            new StartScreen().setVisible(true);
         });
 
         setSize(1000, 900);

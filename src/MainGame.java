@@ -33,7 +33,7 @@ public class MainGame extends JFrame {
             gridPanel.add(label);
         }
 
-        //add labels for letters (horizontal) and grid cells
+        //add labels for letters (vertical) and grid cells
         for (int i = 0; i < GRID_SIZE; i++) {
             char rowLabel = (char) ('A' + i);
             JLabel label = new JLabel(String.valueOf(rowLabel), SwingConstants.CENTER);
