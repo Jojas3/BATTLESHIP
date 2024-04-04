@@ -51,28 +51,7 @@ public class Service {
     }
 
     //getters and setters
-    protected static void setMultiplayer() {
-        boolean multiplayer=false;
-        Scanner input = new Scanner(System.in);
-        System.out.println("\nAre you playing alone? \n");
-        System.out.println("Enter yes or no: ");
-        String yn = input.nextLine();
-        try{
-            if(yn.equalsIgnoreCase("yes")){
-                System.out.println("Continuing to Single Player Mode...");
-            }else if (yn.equalsIgnoreCase("no")) {
-                System.out.println("Continuing to Two Player Mode...");
-                multiplayer = true;
-            }else{
-                System.out.println("ERROR: You must enter 'yes' or 'no'");
-                setMultiplayer();
-            }
-        }catch(InputMismatchException e){
-            System.out.println("ERROR: You must enter a string.");
-            setMultiplayer();
-        }
-        Service.multiplayer = multiplayer;
-    }
+
     protected static String setY(){
         Scanner input = new Scanner(System.in);
         String y;
@@ -116,6 +95,9 @@ public class Service {
         return multiplayer;
     }
 
+    public static void setMultiplayer(boolean multiplayer) {
+        Service.multiplayer = multiplayer;
+    }
 
     public String getyBound() {
         return yBound;
