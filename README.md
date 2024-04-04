@@ -1,3 +1,3 @@
 BATTLESHIP (WIP)
-Project for CMPSC 221.
+
 -JD
