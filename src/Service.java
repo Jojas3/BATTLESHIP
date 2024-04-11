@@ -1,4 +1,5 @@
 
+import javax.swing.*;
 import java.util.*;
 
 //pretend this is a server
@@ -34,6 +35,7 @@ public class Service {
 
     //y letter bound
     private static final String yBound = "abcdefghij";
+    private static final int xBound = 10;
 
     //ship length
     //private int length;
@@ -41,6 +43,7 @@ public class Service {
 
 
     //this method will loop player turns until game-over
+    //TODO: might be useless. check back later when project is finished.
     public static void gameLoop() {
         setGameStatus(true);
         System.out.println("\nStarting game!!!\n");
@@ -50,46 +53,22 @@ public class Service {
 
     }
 
+
     //getters and setters
 
-    protected static String setY(){
-        Scanner input = new Scanner(System.in);
-        String y;
-        while (true) {
-            try {
-                System.out.print("Enter ship Y coordinate (must be within a and j)");
-                y = input.nextLine();
-                if( yBound.contains(y)){
-                    break;
-                }
-                System.out.println("Ship Y coordinate must be within a and j!! Try again.");
-
-            } catch (InputMismatchException e) {
-                System.out.println("ERROR: You need to enter a LETTER between a and j. Try again.");
-                input.nextLine();
-            }
+    protected static void checkCoord(char[] password) throws InputMismatchException{
+        //y is char. x is int
+        if (password.length == 2) {
+            int x = password[1] - '0';
+            char y = password[0];
+        }else{
+            throw new InputMismatchException();
         }
-        return y;
-    }
-    protected static int setX(){
-        Scanner input = new Scanner(System.in);
 
-        int x;
-        while (true) {
-            try {
-                System.out.print("Enter ship X coordinate (must be within 0 and 9)");
-                x = input.nextInt();
-                if( x >= 0 && x <= 9){
-                    break;
-                }
-                System.out.println("Ship X coordinate must be within 0 and 9!! Try again.");
+        checkX(password);
+        checkY(password);
 
-            } catch (InputMismatchException e) {
-                System.out.println("You did not enter a Integer.");
-                input.nextLine();
-            }
-        }
-        return x;
+
     }
     public static boolean isMultiplayer() {
         return multiplayer;
@@ -101,6 +80,9 @@ public class Service {
 
     public String getyBound() {
         return yBound;
+    }
+    public int getxBound(){
+        return xBound;
     }
 
     public int getX1() {
