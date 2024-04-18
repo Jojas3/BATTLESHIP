@@ -2,7 +2,6 @@
 import java.util.*;
 
 import static java.lang.System.exit;
-/**
 public class Turn {
     //get player computer guess and add to list of all computer guesses
     private static String computerGuess(){
@@ -130,13 +129,17 @@ public class Turn {
     }
     public static void Turns() {
         while(Service.isGameStatus()) {
+            new MainGame(1).setVisible(true);
             playerOne();
             if (Service.isMultiplayer()) {
                 playerTwo();
+                new MainGame(2).setVisible(true);
             } else {
                 playerComputer();
             }
-
         }
+
+        //after turns are over, open game over screen.
+        new GameOver().setVisible(true);
     }
-}**/
+}

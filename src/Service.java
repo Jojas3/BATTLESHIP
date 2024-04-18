@@ -20,10 +20,12 @@ public class Service {
     private boolean isHit, isMiss;
 
     //stats tracking p1
-    private int p1ShotsHit, p1ShotsMiss;
+    private static int p1ShotsHit;
+    private static int p1ShotsMiss;
 
     //stats tracking p2
-    private int p2ShotsHit, p2ShotsMiss;
+    private static int p2ShotsHit;
+    private static int p2ShotsMiss;
 
     //ship location, player1
     private int x1;
@@ -53,7 +55,7 @@ public class Service {
 
     //getters and setters
 
-    //TODO: make this function check if a coordinate entered into the gui is valid
+
     //check if a coordinate entered into the gui is valid
     public static void checkCoord(char[] password, int pNumber) throws InputMismatchException{
         int x;
@@ -165,36 +167,36 @@ public class Service {
         isMiss = miss;
     }
 
-    public int getP1ShotsHit() {
+    public static int getP1ShotsHit() {
         return p1ShotsHit;
     }
 
     public void setP1ShotsHit() {
-        this.p1ShotsHit+=1;
+        p1ShotsHit+=1;
     }
 
-    public int getP1ShotsMiss() {
+    public static int getP1ShotsMiss() {
         return p1ShotsMiss;
     }
 
     public void setP1ShotsMiss() {
-        this.p1ShotsMiss+=1;
+        p1ShotsMiss+=1;
     }
 
-    public int getP2ShotsHit() {
+    public static int getP2ShotsHit() {
         return p2ShotsHit;
     }
 
     public void setP2ShotsHit() {
-        this.p2ShotsHit+=1;
+        p2ShotsHit+=1;
     }
 
-    public int getP2ShotsMiss() {
+    public static int getP2ShotsMiss() {
         return p2ShotsMiss;
     }
 
     public void setP2ShotsMiss() {
-        this.p2ShotsMiss+=1;
+        p2ShotsMiss+=1;
     }
 
     public void setP2Guesses(String p2Guesses) {

@@ -1,3 +1,5 @@
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,9 +21,17 @@ public class MainGame extends JFrame {
     private JLabel playerHits;
     private JLabel playerMiss;
 
-    public MainGame() {
+    public MainGame(int player) {
         setTitle("Battleship Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //set player hits and misses
+        if(player==1) {
+            playerHits.setText(String.valueOf(Service.getP1ShotsHit()));
+            playerMiss.setText(String.valueOf(Service.getP1ShotsMiss()));
+        }else{
+            playerHits.setText(String.valueOf(Service.getP2ShotsHit()));
+            playerMiss.setText(String.valueOf(Service.getP2ShotsMiss()));
+        }
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -52,7 +62,9 @@ public class MainGame extends JFrame {
                 JButton cellButton = new JButton();
                 cellButton.setPreferredSize(new Dimension(50, 50)); // Set the size of the buttons
                 gridButtons[i][j] = cellButton; // Store button reference in the gridButtons array
-                cellButton.addActionListener(new ButtonClickListener(i, j)); // Add ActionListener to each button
+                // Add ActionListener to each button, each button disposes screen on click.
+                cellButton.addActionListener(new ButtonClickListener(i, j));
+                cellButton.addActionListener(e-> {dispose();});
                 gridPanel.add(cellButton);
             }
         }
@@ -67,12 +79,11 @@ public class MainGame extends JFrame {
 
     // ActionListener for grid buttons
         private record ButtonClickListener(int row, int column) implements ActionListener {
+            public void actionPerformed(ActionEvent click) {
+                    //obtain and print the clicked button. in the future this can be used to store or send data to the server.
+                    JButton clickedButton = (JButton) click.getSource();
+                    String a = (char) ('A' + row) + String.valueOf(column + 1);
 
-        public void actionPerformed(ActionEvent click) {
-                //obtain and print the clicked button. in the future this can be used to store or send data to the server.
-                JButton clickedButton = (JButton) click.getSource();
-                String a = (char) ('A' + row) + String.valueOf(column + 1);
-                System.out.println("Clicked on cell: " + a);
-            }
+                }
         }
 }

@@ -51,7 +51,7 @@ public class EnterInfo extends JFrame {
             }
             if(i==1){
                 dispose();
-                new MainGame().setVisible(true);
+                new MainGame(1).setVisible(true);
             }
         });
 
