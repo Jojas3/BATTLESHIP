@@ -2,7 +2,7 @@
 import java.util.*;
 
 import static java.lang.System.exit;
-
+/**
 public class Turn {
     //get player computer guess and add to list of all computer guesses
     private static String computerGuess(){
@@ -139,4 +139,4 @@ public class Turn {
 
         }
     }
-}
+}**/

@@ -37,13 +37,10 @@ public class Service {
     private static final String yBound = "abcdefghij";
     private static final int xBound = 10;
 
-    //ship length
-    //private int length;
-
-
 
     //this method will loop player turns until game-over
     //TODO: might be useless. check back later when project is finished.
+    /**
     public static void gameLoop() {
         setGameStatus(true);
         System.out.println("\nStarting game!!!\n");
@@ -51,25 +48,35 @@ public class Service {
         Turn.Turns();
         System.out.println("GAME OVER. Thank you for playing!");
 
-    }
+    }**/
 
 
     //getters and setters
 
-    protected static void checkCoord(char[] password) throws InputMismatchException{
-        //y is char. x is int
+    //TODO: make this function check if a coordinate entered into the gui is valid
+    //check if a coordinate entered into the gui is valid
+    public static void checkCoord(char[] password, int pNumber) throws InputMismatchException{
+        int x;
+        char y;
+        //check the length, if its valid assign x/y to temp variables
         if (password.length == 2) {
-            int x = password[1] - '0';
-            char y = password[0];
+            x = password[1] - '0';
+            y = Character.toLowerCase(password[0]);
+            System.out.println(x+", y: "+y);
         }else{
-            throw new InputMismatchException();
+            throw new InputMismatchException("Coordinate entered  for Player "+pNumber+" is not length 2!");
         }
 
-        checkX(password);
-        checkY(password);
-
-
+        //check if the inputs are within bounds,
+        if(x>0 & xBound-x>=0 & yBound.indexOf(y)!=(-1)){
+            //.indexOf returns -1 if the character is not in the yBound
+            //do nothing if both inputs are valid
+        }else{
+            throw new InputMismatchException("Invalid Input for player "+pNumber+"!");
+        }
+        System.out.println("Coordinate " +pNumber+ " looks good!");
     }
+
     public static boolean isMultiplayer() {
         return multiplayer;
     }
@@ -116,14 +123,6 @@ public class Service {
     public void setY2(String y2) {
         this.y2 = y2;
     }
-
-    /*public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }*/
 
     public static boolean isGameStatus() {
         return gameStatus;

@@ -12,6 +12,12 @@ public class MainGame extends JFrame {
 
     private static final int GRID_SIZE = 10;
     private JButton[][] gridButtons;
+    private JPanel infoPanel;
+    private JLabel yourTurn;
+    private JLabel hitLabel;
+    private JLabel missLabel;
+    private JLabel playerHits;
+    private JLabel playerMiss;
 
     public MainGame() {
         setTitle("Battleship Grid");
@@ -52,7 +58,7 @@ public class MainGame extends JFrame {
         }
 
         mainPanel.add(gridPanel, BorderLayout.CENTER);
-
+        mainPanel.add(infoPanel, BorderLayout.SOUTH);
         add(mainPanel);
 
         pack();
@@ -65,7 +71,8 @@ public class MainGame extends JFrame {
         public void actionPerformed(ActionEvent click) {
                 //obtain and print the clicked button. in the future this can be used to store or send data to the server.
                 JButton clickedButton = (JButton) click.getSource();
-                System.out.println("Clicked on cell: " + (char) ('A' + row) + (column + 1));
+                String a = (char) ('A' + row) + String.valueOf(column + 1);
+                System.out.println("Clicked on cell: " + a);
             }
         }
 }

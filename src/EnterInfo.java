@@ -28,26 +28,31 @@ public class EnterInfo extends JFrame {
         }
 
         STARTGAMEButton.addActionListener(e-> {
-            //ask server to check if player coords are valid
-            while (true) {
-                try {
-                    Service.checkCoord(passwordField1.getPassword());
+            //i will be 0 unless the player coord checks pass
+            int i = 0;
 
-                    //if MP, run the check for p2 coord.
-                    //if not MP, generate random coords for the NPC
-                    if(Service.isMultiplayer()) {
-                        Service.checkCoord(passwordField2.getPassword());
-                    }else{
-                        Ships.placeShips();
-                    }
-                    break;
-                } catch (InputMismatchException badInput){
-                    JLabel error = new JLabel("Error! One of your coordinates was not entered correctly!");
-                    add(error);
+            //ask server to check if player coords are valid
+            try {
+                Service.checkCoord(passwordField1.getPassword(), 1);
+                //if MP, run the check for p2 coord.
+                //if not MP, generate random coords for the NPC
+                if(Service.isMultiplayer()) {
+                    Service.checkCoord(passwordField2.getPassword(), 2);
+                }else{
+                    Ships.placeShips();
                 }
+                //set i=1, indicating that the checks passed.
+                i=1;
+            } catch (Exception badInput){
+                JLabel error = new JLabel("Error! One of your coordinates was not entered correctly!");
+                error.setVisible(true);
+                passwordField1.setText("");
+                passwordField2.setText("");
             }
-            dispose();
-            new MainGame().setVisible(true);
+            if(i==1){
+                dispose();
+                new MainGame().setVisible(true);
+            }
         });
 
         backButton.addActionListener(e-> {
