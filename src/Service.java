@@ -1,5 +1,4 @@
 
-import javax.swing.*;
 import java.util.*;
 
 //pretend this is a server
@@ -11,10 +10,10 @@ public class Service {
     private static boolean multiplayer;
 
     //list of all guesses the computer has made
-    private String p1Guesses, p2Guesses;
+    private String p2Guesses;
 
-    //keeps track of the number of player ships remaining on the board, will be used if I add more than one ship
-    private int playerOneShips, playerTwoShips;
+    //Stores the current guess
+    private static String currentGuess;
 
     //checks if shots are hit
     private boolean isHit, isMiss;
@@ -28,56 +27,42 @@ public class Service {
     private static int p2ShotsMiss;
 
     //ship location, player1
-    private int x1;
-    private String y1;
+    private String p1Location;
 
     //ship location, player2
-    private int x2;
-    private String y2;
+    private String p2Location;
 
     //y letter bound
     private static final String yBound = "abcdefghij";
     private static final int xBound = 10;
+    private static final int shipsPerPlayer = 1;
 
-
-    //this method will loop player turns until game-over
-    //TODO: might be useless. check back later when project is finished.
-    /**
-    public static void gameLoop() {
-        setGameStatus(true);
-        System.out.println("\nStarting game!!!\n");
-
-        Turn.Turns();
-        System.out.println("GAME OVER. Thank you for playing!");
-
-    }**/
 
 
     //getters and setters
 
-
     //check if a coordinate entered into the gui is valid
-    public static void checkCoord(char[] password, int pNumber) throws InputMismatchException{
+    public static void checkCoord(char[] password) throws InputMismatchException{
         int x;
         char y;
         //check the length, if its valid assign x/y to temp variables
         if (password.length == 2) {
             x = password[1] - '0';
             y = Character.toLowerCase(password[0]);
-            System.out.println(x+", y: "+y);
         }else{
-            throw new InputMismatchException("Coordinate entered  for Player "+pNumber+" is not length 2!");
+            throw new InputMismatchException("Coordinate entered by Player is not length 2!");
         }
 
         //check if the inputs are within bounds,
         if(x>0 & xBound-x>=0 & yBound.indexOf(y)!=(-1)){
             //.indexOf returns -1 if the character is not in the yBound
-            //do nothing if both inputs are valid
+            //do nothing if the coord is good
         }else{
-            throw new InputMismatchException("Invalid Input for player "+pNumber+"!");
+            throw new InputMismatchException("Invalid coordinate given by player!");
         }
-        System.out.println("Coordinate " +pNumber+ " looks good!");
+        System.out.println("Coordinate looks good!");
     }
+
 
     public static boolean isMultiplayer() {
         return multiplayer;
@@ -87,6 +72,14 @@ public class Service {
         Service.multiplayer = multiplayer;
     }
 
+    public static void setCurrentGuess(String buttonId) {
+        currentGuess = buttonId.toLowerCase();
+    }
+
+    public static String getCurrentGuess(){
+        return currentGuess;
+    }
+
     public String getyBound() {
         return yBound;
     }
@@ -94,36 +87,24 @@ public class Service {
         return xBound;
     }
 
-    public int getX1() {
-        return this.x1;
+    public int getShipsPerPlayer(){
+        return shipsPerPlayer;
     }
 
-    public void setX1(int x1) {
-        this.x1 = x1;
+    public String getP1Location() {
+        return this.p1Location;
     }
 
-    public String getY1() {
-        return this.y1;
+    public void setP1Location(String location) {
+        this.p1Location = location;
     }
 
-    public void setY1(String y1) {
-        this.y1 = y1;
+    public String getP2Location() {
+        return this.p2Location;
     }
 
-    public int getX2() {
-        return this.x2;
-    }
-
-    public void setX2(int x2) {
-        this.x2 = x2;
-    }
-
-    public String getY2() {
-        return this.y2;
-    }
-
-    public void setY2(String y2) {
-        this.y2 = y2;
+    public void setP2Location(String p2Location) {
+        this.p2Location = p2Location;
     }
 
     public static boolean isGameStatus() {
@@ -132,23 +113,6 @@ public class Service {
 
     public static void setGameStatus(boolean gameStatus) {
         Service.gameStatus = gameStatus;
-    }
-
-
-    public int getPlayerOneShips() {
-        return playerOneShips;
-    }
-
-    public void setPlayerOneShips(int playerOneShips) {
-        this.playerOneShips = playerOneShips;
-    }
-
-    public int getPlayerTwoShips() {
-        return playerTwoShips;
-    }
-
-    public void setPlayerTwoShips(int playerTwoShips) {
-        this.playerTwoShips = playerTwoShips;
     }
 
     public boolean isHit() {
@@ -206,12 +170,5 @@ public class Service {
     public String getP2Guesses() {
         return p2Guesses+"";
     }
-
-    public String getP1Guesses() {
-        return p1Guesses+"";
-    }
-
-    public void setP1Guesses(String p1Guesses) {
-        this.p1Guesses += (p1Guesses+" ");
-    }
 }
+

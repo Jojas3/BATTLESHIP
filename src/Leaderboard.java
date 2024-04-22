@@ -49,7 +49,7 @@ public class Leaderboard extends JFrame {
         JPanel inputPanel = new JPanel(new GridLayout(3, 2, 5, 5));
         JTextField nameField = new JTextField(10);
         JTextField missesField = new JTextField(10);
-        JButton submitButton = getjButton(nameField, missesField);
+        JButton submitButton = getjButton(nameField);
 
         inputPanel.add(new JLabel("Enter Your Name:"));
         inputPanel.add(nameField);
@@ -63,7 +63,7 @@ public class Leaderboard extends JFrame {
         loadLeaderboardFromFile();
     }
 
-    private JButton getjButton(JTextField nameField, JTextField missesField) {
+    private JButton getjButton(JTextField nameField) {
         JButton submitButton = new JButton("Submit");
 
         submitButton.addActionListener(e -> {
@@ -71,6 +71,7 @@ public class Leaderboard extends JFrame {
 
             //TODO: make it get the least shots missed from p1 or p2 when the game is over
             int misses = Service.getP1ShotsMiss();
+
             if (!name.isEmpty()) {
                 try {
                     Player newPlayer = new Player(name, misses);

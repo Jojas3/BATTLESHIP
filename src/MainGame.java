@@ -1,5 +1,3 @@
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +19,8 @@ public class MainGame extends JFrame {
     private JLabel playerHits;
     private JLabel playerMiss;
 
+    //draws a grid and returns the coordinate clicked
+
     public MainGame(int player) {
         setTitle("Battleship Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,6 +32,11 @@ public class MainGame extends JFrame {
             playerHits.setText(String.valueOf(Service.getP2ShotsHit()));
             playerMiss.setText(String.valueOf(Service.getP2ShotsMiss()));
         }
+
+
+         /**
+         * The following code draws the main grid with buttons.
+         **/
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -77,13 +82,16 @@ public class MainGame extends JFrame {
         setLocationRelativeTo(null); //center the frame on the screen
     }
 
-    // ActionListener for grid buttons
-        private record ButtonClickListener(int row, int column) implements ActionListener {
-            public void actionPerformed(ActionEvent click) {
-                    //obtain and print the clicked button. in the future this can be used to store or send data to the server.
-                    JButton clickedButton = (JButton) click.getSource();
-                    String a = (char) ('A' + row) + String.valueOf(column + 1);
+    //obtain the button clicked
+    private record ButtonClickListener(int row, int column) implements ActionListener {
+        public void actionPerformed(ActionEvent click) {
+            // Obtain and store the clicked button.
+            String buttonId = (char) ('A' + row) + String.valueOf(column + 1);
+            System.out.println("You guessed: " + buttonId);
 
-                }
+            //store to server
+            Service.setCurrentGuess(buttonId);
         }
+    }
+
 }

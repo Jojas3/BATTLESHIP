@@ -40,9 +40,9 @@ class ServiceTest extends Service {
     public void testSetY1() {
         String x = "hi";
 
-        setY1(x);
+        setP1Location(x);
 
-        assertEquals(x, getY1());
+        assertEquals(x, getP1Location());
     }
 
     @Test
@@ -58,9 +58,9 @@ class ServiceTest extends Service {
     public void testSetY2() {
         String x = "hi";
 
-        setY2(x);
+        setP2Location(x);
 
-        assertEquals(x, getY2());
+        assertEquals(x, getP2Location());
 
     }
 }
