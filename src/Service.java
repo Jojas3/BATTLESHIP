@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 //pretend this is a server
@@ -35,7 +34,10 @@ public class Service {
     //y letter bound
     private static final String yBound = "abcdefghij";
     private static final int xBound = 10;
+
+    //total number of ships a player has
     private static final int shipsPerPlayer = 1;
+
 
 
 

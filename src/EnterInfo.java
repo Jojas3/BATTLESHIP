@@ -29,8 +29,8 @@ public class EnterInfo extends JFrame {
         }
 
         STARTGAMEButton.addActionListener(e-> {
-            //i will be 0 unless the player coord checks pass
-            int i = 0;
+            //checksPassed will be false until the player coord checks pass
+            boolean checksPassed = false;
 
             //ask server to check if player coords are valid. if they are, then Service.checkCoord will set to appropriate variable. if not, throw error
             try {
@@ -45,17 +45,19 @@ public class EnterInfo extends JFrame {
                     Ships.placeShips();
                 }
                 //set i=1, indicating that the checks passed.
-                i=1;
+                checksPassed = true;
             } catch (Exception badInput){
                 JOptionPane.showMessageDialog(this, "Please enter a valid ship location. Hover over input box for further instruction.");
                 passwordField1.setText("");
                 passwordField2.setText("");
             }
-            if(i==1){
+
+            if(checksPassed){
                 dispose();
+
                 //begin the game and start taking turns
-                //Turn.Turns();
-                new MainGame(1).setVisible(true);
+                Service.setGameStatus(true);
+                Turn.Turns();
             }
         });
 

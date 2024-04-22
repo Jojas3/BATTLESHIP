@@ -36,9 +36,12 @@ public class Leaderboard extends JFrame {
             return rank + ". " + name + " - Misses: " + misses;
         }
     }
-    public Leaderboard() {
+
+    //ViewMode removes ability to write new players to the leaderboard
+    public Leaderboard(boolean ViewMode) {
         setTitle("Leaderboard");
         setSize(350, 400);
+        setLocationRelativeTo(null);
 
         leaderboardModel = new DefaultListModel<>();
         JList<Player> leaderboardList = new JList<>(leaderboardModel);
@@ -46,43 +49,50 @@ public class Leaderboard extends JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(new JScrollPane(leaderboardList), BorderLayout.CENTER);
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 5, 5));
-        JTextField nameField = new JTextField(10);
-        JTextField missesField = new JTextField(10);
-        JButton submitButton = getjButton(nameField);
 
-        inputPanel.add(new JLabel("Enter Your Name:"));
-        inputPanel.add(nameField);
-        inputPanel.add(new JLabel("Enter Number of Misses:"));
-        inputPanel.add(missesField);
-        inputPanel.add(submitButton);
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 5, 5));
+        if(!ViewMode) {
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JTextField nameField = new JTextField(10);
+            JTextField missesField = new JTextField(10);
+
+            JButton submitButton = new JButton("Submit");
+
+            submitButton.addActionListener(e ->{
+                String name = nameField.getText().trim();
+
+                //TODO: make it get the least shots missed from p1 or p2 when the game is over
+                int misses = Service.getP1ShotsMiss();
+
+                if (!name.isEmpty()) {
+                    try {
+                        Player newPlayer = new Player(name, misses);
+                        addPlayerToLeaderboard(newPlayer);
+                        saveLeaderboardToFile();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "Please enter a valid number for misses.");
+                    }
+                }
+            });
+
+            inputPanel.add(new JLabel("Enter Your Name:"));
+            inputPanel.add(nameField);
+            inputPanel.add(new JLabel("Enter Number of Misses:"));
+            inputPanel.add(missesField);
+            inputPanel.add(submitButton);
+        }
+        JButton mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.addActionListener(e -> {
+            dispose();
+            new StartScreen().setVisible(true);
+        });
+        inputPanel.add(mainMenuButton);
 
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
         add(mainPanel);
 
         loadLeaderboardFromFile();
-    }
-
-    private JButton getjButton(JTextField nameField) {
-        JButton submitButton = new JButton("Submit");
-
-        submitButton.addActionListener(e -> {
-            String name = nameField.getText().trim();
-
-            //TODO: make it get the least shots missed from p1 or p2 when the game is over
-            int misses = Service.getP1ShotsMiss();
-
-            if (!name.isEmpty()) {
-                try {
-                    Player newPlayer = new Player(name, misses);
-                    addPlayerToLeaderboard(newPlayer);
-                    saveLeaderboardToFile();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Please enter a valid number for misses.");
-                }
-            }
-        });
-        return submitButton;
     }
 
     private void addPlayerToLeaderboard(Player newPlayer) {

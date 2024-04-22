@@ -7,10 +7,12 @@ public class StartScreen extends JFrame{
     private JButton twoPlayerStart;
     private JButton onePlayerStart;
     private JButton lbButton;
+    private JButton exitButton;
 
     //this is the main panel, complete with tips.
     public StartScreen(){
         setTitle("BATTLESHIP!");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(mainPanel);
         setSize(1000, 900);
         setLocationRelativeTo(null);
@@ -19,18 +21,23 @@ public class StartScreen extends JFrame{
             Service.setMultiplayer(false);
             dispose();
             new EnterInfo().setVisible(true);
-
         });
 
         twoPlayerStart.addActionListener(e -> {
             Service.setMultiplayer(true);
             dispose();
             new EnterInfo().setVisible(true);
-
         });
 
         lbButton.addActionListener(e -> {
-            new Leaderboard().setVisible(true);
+            dispose();
+            new Leaderboard(true).setVisible(true);
+        });
+
+        exitButton.addActionListener(e -> {
+            //exit program
+            System.out.println("Goodbye!");
+            System.exit(0);
         });
     }
 

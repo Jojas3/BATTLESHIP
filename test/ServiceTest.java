@@ -26,15 +26,6 @@ class ServiceTest extends Service {
 
     }
 
-    @Test
-    public void testSetX1() {
-        int x = 7;
-
-        setX1(x);
-
-        assertEquals(x, getX1());
-
-    }
 
     @Test
     public void testSetY1() {
@@ -43,15 +34,6 @@ class ServiceTest extends Service {
         setP1Location(x);
 
         assertEquals(x, getP1Location());
-    }
-
-    @Test
-    public void testSetX2() {
-        int x = 6;
-
-        setX2(x);
-
-        assertEquals(x, getX2());
     }
 
     @Test

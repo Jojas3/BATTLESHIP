@@ -1,16 +1,16 @@
-//temp
-/**
 import java.util.*;
-import static java.lang.System.exit;
 public class Turn {
+    private static String gameResult;
+
+
     //get player computer guess and add to list of all computer guesses
     private static String computerGuess() {
         Random rand = new Random();
         Service obj = new Service();
         System.out.println("\nComputer, it is your turn.");
 
-        String guess = "initialize", y = "initialize";
-        int x = 0;
+        String guess = "initialize", y;
+        int x;
 
         while (!(obj.getP2Guesses().contains(guess))) {
             //generate random y coord
@@ -34,6 +34,7 @@ public class Turn {
             obj.setHit(true);
             if (!Service.isGameStatus()) {
                 System.out.println("\nIT'S A DRAW!");
+
             }
         } else {
             obj.setP2ShotsMiss();
@@ -43,38 +44,14 @@ public class Turn {
         return guess;
     }
 
-    //get player guess but doesn't add to list of player guesses
-
-
-    //TODO make player guess return the button pressed in Maingame
-    private static String playerGuess() {
-        Service obj = new Service();
-        Scanner input = new Scanner(System.in);
-        String guess = "initialize";
-        try {
-            System.out.println("Please enter a unique guess for an enemy ship location (ex. B4): ");
-            guess = input.nextLine();
-
-        } catch (InputMismatchException e) {
-            System.out.println("ERROR: You must enter a string.");
-        }
-
-        return guess;
-    }
-
-    //turn goes until player misses
+    //player one turn
     private static void playerOne() {
         Service obj = new Service();
         obj.setHit(false);
         System.out.println("\nPlayer one, it is your turn.");
-        String guess = "initialize";
-        //guess until the player makes a unique guess
-        guess = playerGuess();
 
-        //add unique guess to string containing all of their guesses
-        obj.setP1Guesses(guess);
 
-        if (obj.getP2Location().contains(guess)) {
+        if (obj.getP2Location().contains(Service.getCurrentGuess())) {
             System.out.println("HIT!");
             //mark a hit for the stats
             obj.setP1ShotsHit();
@@ -92,26 +69,15 @@ public class Turn {
 
     }
 
-    //turn goes until player misses
+    //p2 turn
     private static void playerTwo() {
         Service obj = new Service();
         obj.setHit(false);
         System.out.println("\nPlayer two, it is your turn.");
 
-        String guess;
-        //guess until the player makes a unique guess
-        do {
-            guess = playerGuess();
-            //add guess to list of all guesses
-        } while (obj.getP2Guesses().contains(guess));
-
-        //add unique guess to string containing all of their guesses
-        obj.setP2Guesses(guess);
-
-
         //if enemy ships contain the guess mark as hit and repeat, else miss. if guessed all ships then end program
         do {
-            if (obj.getP1Location().contains(guess)) {
+            if (obj.getP1Location().contains(Service.getCurrentGuess())) {
                 System.out.println("HIT!");
                 //mark a hit for the stats
                 obj.setP2ShotsHit();
@@ -143,17 +109,30 @@ public class Turn {
 
     public static void Turns() {
         while (Service.isGameStatus()) {
+            //player one turn
             new MainGame(1).setVisible(true);
             playerOne();
+
+            //player two turn
             if (Service.isMultiplayer()) {
-                playerTwo();
                 new MainGame(2).setVisible(true);
+                playerTwo();
             } else {
                 playerComputer();
             }
         }
 
+
         //after turns are over, open game over screen.
-        new GameOver().setVisible(true);
+        new GameOver(getGameResult()).setVisible(true);
     }
-}**/
+
+
+    public static String getGameResult() {
+        return gameResult;
+    }
+
+    public void setGameResult(String result) {
+        gameResult = result;
+    }
+}

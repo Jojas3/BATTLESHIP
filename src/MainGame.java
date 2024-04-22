@@ -5,13 +5,9 @@ import java.awt.event.ActionListener;
 
 public class MainGame extends JFrame {
 
-
-    //I couldn't figure out a way to draw the grid using the form so i did this instead. I think it saved time. this code is just meant
-    // to visualize what the game board will look like. player will click a button and then that button location will be sent to the server.
-
-
     private static final int GRID_SIZE = 10;
     private JButton[][] gridButtons;
+
     private JPanel infoPanel;
     private JLabel yourTurn;
     private JLabel hitLabel;
@@ -19,13 +15,14 @@ public class MainGame extends JFrame {
     private JLabel playerHits;
     private JLabel playerMiss;
 
-    //draws a grid and returns the coordinate clicked
 
     public MainGame(int player) {
         setTitle("Battleship Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //set player hits and misses
         if(player==1) {
+            yourTurn.setText("Player "+player+", it is your turn. Click on your guess.");
+
             playerHits.setText(String.valueOf(Service.getP1ShotsHit()));
             playerMiss.setText(String.valueOf(Service.getP1ShotsMiss()));
         }else{
@@ -36,6 +33,8 @@ public class MainGame extends JFrame {
 
          /**
          * The following code draws the main grid with buttons.
+          * At the time of creation I was unsure of how large the grid should be, so
+          * the grid size can be changed by updating GRID_SIZE
          **/
 
         JPanel mainPanel = new JPanel(new BorderLayout());
