@@ -6,7 +6,9 @@ public class StartScreen extends JFrame{
     private JLabel Title;
     private JButton twoPlayerStart;
     private JButton onePlayerStart;
-//this is the main panel, complete with tips.
+    private JButton lbButton;
+
+    //this is the main panel, complete with tips.
     public StartScreen(){
         setTitle("BATTLESHIP!");
         add(mainPanel);
@@ -25,6 +27,10 @@ public class StartScreen extends JFrame{
             dispose();
             new EnterInfo().setVisible(true);
 
+        });
+
+        lbButton.addActionListener(e -> {
+            new Leaderboard().setVisible(true);
         });
     }
 

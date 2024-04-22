@@ -1,6 +1,6 @@
 //temp
 import java.util.*;
-
+/**
 import static java.lang.System.exit;
 public class Turn {
     //get player computer guess and add to list of all computer guesses
@@ -142,4 +142,4 @@ public class Turn {
         //after turns are over, open game over screen.
         new GameOver().setVisible(true);
     }
-}
+}**/

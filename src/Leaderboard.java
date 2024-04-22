@@ -14,7 +14,9 @@ public class Leaderboard extends JFrame {
 
         public Player(String name, int misses) {
             this.name = name;
-            this.misses = misses;
+
+            //TODO make it get the least shots missed from p1 or p2 when the game is over
+            misses = Service.getP1ShotsMiss();
         }
 
         public String getName() {
@@ -37,7 +39,6 @@ public class Leaderboard extends JFrame {
     public Leaderboard() {
         setTitle("Leaderboard");
         setSize(350, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         leaderboardModel = new DefaultListModel<>();
         JList<Player> leaderboardList = new JList<>(leaderboardModel);
@@ -67,10 +68,11 @@ public class Leaderboard extends JFrame {
 
         submitButton.addActionListener(e -> {
             String name = nameField.getText().trim();
-            String missesInput = missesField.getText().trim();
-            if (!name.isEmpty() && !missesInput.isEmpty()) {
+
+            //TODO: make it get the least shots missed from p1 or p2 when the game is over
+            int misses = Service.getP1ShotsMiss();
+            if (!name.isEmpty()) {
                 try {
-                    int misses = Integer.parseInt(missesInput);
                     Player newPlayer = new Player(name, misses);
                     addPlayerToLeaderboard(newPlayer);
                     saveLeaderboardToFile();
@@ -139,12 +141,5 @@ public class Leaderboard extends JFrame {
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Error loading leaderboard from file: " + e.getMessage());
         }
-    }
-
-
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Leaderboard().setVisible(true));
     }
 }
