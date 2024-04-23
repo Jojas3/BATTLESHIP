@@ -14,9 +14,7 @@ public class Leaderboard extends JFrame {
 
         public Player(String name, int misses) {
             this.name = name;
-
-            //TODO make it get the least shots missed from p1 or p2 when the game is over
-            misses = Service.getP1ShotsMiss();
+            this.misses = misses;
         }
 
         public String getName() {
@@ -38,7 +36,7 @@ public class Leaderboard extends JFrame {
     }
 
     //ViewMode removes ability to write new players to the leaderboard
-    public Leaderboard(boolean ViewMode) {
+    public Leaderboard(boolean ViewMode, String result) {
         setTitle("Leaderboard");
         setSize(350, 400);
         setLocationRelativeTo(null);
@@ -55,39 +53,48 @@ public class Leaderboard extends JFrame {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JTextField nameField = new JTextField(10);
-            JTextField missesField = new JTextField(10);
 
-            JButton submitButton = new JButton("Submit");
+            JButton submitButton = new JButton("Save and Exit");
+            JButton exitButton = new JButton("Exit without Saving");
 
-            submitButton.addActionListener(e ->{
-                String name = nameField.getText().trim();
+            exitButton.addActionListener(e -> {
+                System.exit(0);
+            });
 
-                //TODO: make it get the least shots missed from p1 or p2 when the game is over
-                int misses = Service.getP1ShotsMiss();
 
-                if (!name.isEmpty()) {
-                    try {
-                        Player newPlayer = new Player(name, misses);
+            if(!result.toLowerCase().contains("computer")) {
+                submitButton.addActionListener(e -> {
+                    String name = nameField.getText().trim();
+                    if (!name.isEmpty()) {
+                        Player newPlayer = new Player(name, Service.getLeastGuesses());
                         addPlayerToLeaderboard(newPlayer);
                         saveLeaderboardToFile();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(this, "Please enter a valid number for misses.");
+
+                        dispose();
+                        new StartScreen().setVisible(true);
                     }
-                }
-            });
+                });
+
+            }else{
+                Player newPlayer = new Player("Computer", Service.getLeastGuesses());
+                addPlayerToLeaderboard(newPlayer);
+                saveLeaderboardToFile();
+            }
 
             inputPanel.add(new JLabel("Enter Your Name:"));
             inputPanel.add(nameField);
-            inputPanel.add(new JLabel("Enter Number of Misses:"));
-            inputPanel.add(missesField);
+            inputPanel.add(new JLabel("Number of Misses: "));
+            inputPanel.add(new JLabel(String.valueOf(Service.getLeastGuesses())));
             inputPanel.add(submitButton);
+            inputPanel.add(exitButton);
+        }else {
+            JButton mainMenuButton = new JButton("Main Menu");
+            mainMenuButton.addActionListener(e -> {
+                dispose();
+                new StartScreen().setVisible(true);
+            });
+            inputPanel.add(mainMenuButton);
         }
-        JButton mainMenuButton = new JButton("Main Menu");
-        mainMenuButton.addActionListener(e -> {
-            dispose();
-            new StartScreen().setVisible(true);
-        });
-        inputPanel.add(mainMenuButton);
 
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
         add(mainPanel);

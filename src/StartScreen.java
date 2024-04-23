@@ -31,7 +31,7 @@ public class StartScreen extends JFrame{
 
         lbButton.addActionListener(e -> {
             dispose();
-            new Leaderboard(true).setVisible(true);
+            new Leaderboard(true, "null").setVisible(true);
         });
 
         exitButton.addActionListener(e -> {

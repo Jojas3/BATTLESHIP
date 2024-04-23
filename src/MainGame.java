@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainGame extends JFrame {
 
@@ -16,16 +14,17 @@ public class MainGame extends JFrame {
     private JLabel playerMiss;
 
 
-    public MainGame(int player) {
+    public MainGame(boolean isPlayerOne) {
         setTitle("Battleship Grid");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //set player hits and misses
-        if(player==1) {
-            yourTurn.setText("Player "+player+", it is your turn. Click on your guess.");
 
+        //set player hits and misses
+        if (isPlayerOne) {
+            yourTurn.setText("Player 1, it is your turn. Click on your guess.");
             playerHits.setText(String.valueOf(Service.getP1ShotsHit()));
             playerMiss.setText(String.valueOf(Service.getP1ShotsMiss()));
-        }else{
+        } else {
+            yourTurn.setText("Player 2, it is your turn. Click on your guess.");
             playerHits.setText(String.valueOf(Service.getP2ShotsHit()));
             playerMiss.setText(String.valueOf(Service.getP2ShotsMiss()));
         }
@@ -33,8 +32,8 @@ public class MainGame extends JFrame {
 
          /**
          * The following code draws the main grid with buttons.
-          * At the time of creation I was unsure of how large the grid should be, so
-          * the grid size can be changed by updating GRID_SIZE
+         * At the time of creation I was unsure of how large the grid should be, so
+         * the grid size can be changed by updating GRID_SIZE
          **/
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -50,7 +49,7 @@ public class MainGame extends JFrame {
 
         //add labels for numbers (vertical)
         for (int i = 0; i < GRID_SIZE; i++) {
-            JLabel label = new JLabel(String.valueOf(i + 1), SwingConstants.CENTER);
+            JLabel label = new JLabel(String.valueOf(i), SwingConstants.CENTER);
             label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             gridPanel.add(label);
         }
@@ -64,33 +63,31 @@ public class MainGame extends JFrame {
 
             for (int j = 0; j < GRID_SIZE; j++) {
                 JButton cellButton = new JButton();
-                cellButton.setPreferredSize(new Dimension(50, 50)); // Set the size of the buttons
-                gridButtons[i][j] = cellButton; // Store button reference in the gridButtons array
-                // Add ActionListener to each button, each button disposes screen on click.
-                cellButton.addActionListener(new ButtonClickListener(i, j));
-                cellButton.addActionListener(e-> {dispose();});
+                cellButton.setPreferredSize(new Dimension(50, 50)); //set the size of the buttons
+                gridButtons[i][j] = cellButton; //store button reference in the gridButtons array
+
+                //stores the button (coordinate) clicked, then
+                //dispose and go to next turn upon a button being clicked
+                int finalI = i;
+                int finalJ = j;
+                cellButton.addActionListener(e -> {
+                    String buttonId = (char) ('A' + finalI) + String.valueOf(finalJ);
+                    System.out.println("You guessed: " + buttonId);
+
+                    //store to server
+                    Service.setCurrentGuess(buttonId);
+                    dispose();
+                    Turn.Turns(isPlayerOne);
+                });
+
                 gridPanel.add(cellButton);
             }
         }
 
-        mainPanel.add(gridPanel, BorderLayout.CENTER);
-        mainPanel.add(infoPanel, BorderLayout.SOUTH);
-        add(mainPanel);
+        add(gridPanel, BorderLayout.CENTER);
+        add(infoPanel, BorderLayout.SOUTH);
 
         pack();
         setLocationRelativeTo(null); //center the frame on the screen
     }
-
-    //obtain the button clicked
-    private record ButtonClickListener(int row, int column) implements ActionListener {
-        public void actionPerformed(ActionEvent click) {
-            // Obtain and store the clicked button.
-            String buttonId = (char) ('A' + row) + String.valueOf(column + 1);
-            System.out.println("You guessed: " + buttonId);
-
-            //store to server
-            Service.setCurrentGuess(buttonId);
-        }
-    }
-
 }

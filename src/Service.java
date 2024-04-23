@@ -9,13 +9,12 @@ public class Service {
     private static boolean multiplayer;
 
     //list of all guesses the computer has made
-    private String p2Guesses;
+    private static String p2Guesses;
 
     //Stores the current guess
     private static String currentGuess;
 
-    //checks if shots are hit
-    private boolean isHit, isMiss;
+    private boolean isMiss;
 
     //stats tracking p1
     private static int p1ShotsHit;
@@ -26,14 +25,14 @@ public class Service {
     private static int p2ShotsMiss;
 
     //ship location, player1
-    private String p1Location;
+    private static String p1Location;
 
     //ship location, player2
-    private String p2Location;
+    private static String p2Location;
 
     //y letter bound
     private static final String yBound = "abcdefghij";
-    private static final int xBound = 10;
+    private static final int xBound = 9;
 
     //total number of ships a player has
     private static final int shipsPerPlayer = 1;
@@ -56,7 +55,7 @@ public class Service {
         }
 
         //check if the inputs are within bounds,
-        if(x>0 & xBound-x>=0 & yBound.indexOf(y)!=(-1)){
+        if(x>=0 & xBound-x>=0 & yBound.indexOf(y)!=(-1)){
             //.indexOf returns -1 if the character is not in the yBound
             //do nothing if the coord is good
         }else{
@@ -82,31 +81,31 @@ public class Service {
         return currentGuess;
     }
 
-    public String getyBound() {
+    public static String getyBound() {
         return yBound;
     }
-    public int getxBound(){
+    public static int getxBound(){
         return xBound;
     }
 
-    public int getShipsPerPlayer(){
+    public static int getShipsPerPlayer(){
         return shipsPerPlayer;
     }
 
-    public String getP1Location() {
-        return this.p1Location;
+    public static String getP1Location() {
+        return p1Location;
     }
 
-    public void setP1Location(String location) {
-        this.p1Location = location;
+    public static void setP1Location(String location) {
+        p1Location = location;
     }
 
-    public String getP2Location() {
-        return this.p2Location;
+    public static String getP2Location() {
+        return p2Location;
     }
 
-    public void setP2Location(String p2Location) {
-        this.p2Location = p2Location;
+    public static void setP2Location(String location) {
+        p2Location = location;
     }
 
     public static boolean isGameStatus() {
@@ -115,14 +114,6 @@ public class Service {
 
     public static void setGameStatus(boolean gameStatus) {
         Service.gameStatus = gameStatus;
-    }
-
-    public boolean isHit() {
-        return isHit;
-    }
-
-    public void setHit(boolean hit) {
-        isHit = hit;
     }
 
     public boolean isMiss() {
@@ -137,7 +128,7 @@ public class Service {
         return p1ShotsHit;
     }
 
-    public void setP1ShotsHit() {
+    public static void setP1ShotsHit() {
         p1ShotsHit+=1;
     }
 
@@ -145,7 +136,7 @@ public class Service {
         return p1ShotsMiss;
     }
 
-    public void setP1ShotsMiss() {
+    public static void setP1ShotsMiss() {
         p1ShotsMiss+=1;
     }
 
@@ -153,7 +144,7 @@ public class Service {
         return p2ShotsHit;
     }
 
-    public void setP2ShotsHit() {
+    public static void setP2ShotsHit() {
         p2ShotsHit+=1;
     }
 
@@ -161,16 +152,21 @@ public class Service {
         return p2ShotsMiss;
     }
 
-    public void setP2ShotsMiss() {
+    public static void setP2ShotsMiss() {
         p2ShotsMiss+=1;
     }
 
-    public void setP2Guesses(String p2Guesses) {
-        this.p2Guesses += (p2Guesses+" ");
+    public static void setP2Guesses(String p2Guess) {
+        p2Guesses += (p2Guess+" ");
+        System.out.println(p2Guesses);
     }
 
-    public String getP2Guesses() {
+    public static String getP2Guesses() {
         return p2Guesses+"";
+    }
+
+    public static int getLeastGuesses(){
+        return Math.min(p1ShotsMiss, p2ShotsMiss);
     }
 }
 

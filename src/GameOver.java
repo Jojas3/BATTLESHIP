@@ -18,7 +18,7 @@ public class GameOver extends JFrame {
         resultLabel.setText(result);
 
         nextButton.addActionListener(e -> {
-            new Leaderboard(false).setVisible(true);
+            new Leaderboard(false, result).setVisible(true);
             dispose();
         });
 
