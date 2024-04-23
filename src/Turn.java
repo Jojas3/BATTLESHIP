@@ -1,4 +1,5 @@
 import java.util.*;
+//this class handles advancing through and completing player turns
 public class Turn{
 
 
@@ -75,7 +76,7 @@ public class Turn{
 
     }
 
-    //turn goes until computer misses
+
     private static void playerComputer() {
         System.out.println("The computer is guessing your location...");
 
@@ -84,17 +85,19 @@ public class Turn{
         System.out.println("End of Computer's Turn.");
     }
 
-    public static void Turns(boolean player) {
+    public static void Turns(boolean player1) {
         //if it is player one's turn
-        if (player) {
+        if (player1) {
             //calculate outcome of turn
             playerOne();
 
             //advance to p2 turn
             if(Service.isGameStatus()) {
                 if (Service.isMultiplayer()) {
+                    //give p2 a turn
                     new MainGame(false).setVisible(true);
                 } else {
+                    //run the computer's turn
                     playerComputer();
                     if(Service.isGameStatus()) {
                         new MainGame(true).setVisible(true);

@@ -8,7 +8,7 @@ public class Battleship {
 
     public static void main(String[] args) {
 
-        System.out.println("WELCOME TO BATTLESHIP!!!");
+        System.out.println("\nWELCOME TO BATTLESHIP!!!\n");
         StartScreen StartScreen = new StartScreen();
         StartScreen.setVisible(true);
 

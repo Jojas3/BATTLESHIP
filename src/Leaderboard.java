@@ -111,10 +111,12 @@ public class Leaderboard extends JFrame {
                 break;
             }
         }
+        //the player won't be added at this point if their misses are higher than all others. this adds the player to the bottom of the list.
         if (!added) {
             newPlayer.setRank(leaderboardModel.size() + 1);
             leaderboardModel.addElement(newPlayer);
         }
+        //sort player order on leaderboard
         updateRanks();
 
         final int MAX_LEADERBOARD_SIZE = 20;
@@ -125,6 +127,8 @@ public class Leaderboard extends JFrame {
         //save the leaderboard to the file after adding the player
         saveLeaderboardToFile();
 
+
+        //refresh gui to display changes
         revalidate();
         repaint();
     }
