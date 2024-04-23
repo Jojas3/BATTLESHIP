@@ -27,9 +27,12 @@ public class Service {
     private static String p2Location;
 
     //y letter bound
-    private static final String yBound = "abcdef";
+    /**
+     * Y bound must be a string of letters in alphabetical order with a max value of j
+     */
+    private static final String yBound = "abcdefghij";
     //x bound, 0 inclusive
-    private static final int xBound = (yBound.length() - 1);
+    private static final int xBound = (yBound.length()-1);
 
 
     //getters and setters

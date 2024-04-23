@@ -67,19 +67,20 @@ public class MainGame extends JFrame {
         add(infoPanel, BorderLayout.SOUTH);
 
         pack();
+        setSize(1000, 700);
         setLocationRelativeTo(null); //center the frame on the screen
     }
 
     private JButton newButtonListener(boolean isPlayerOne, int i, int j) {
         JButton cellButton = new JButton();
         cellButton.setPreferredSize(new Dimension(50, 50)); //set the size of the buttons
-
+        String buttonId = (char) ('A' + i) + String.valueOf(j);
+        cellButton.setToolTipText(buttonId);
         //stores the button (coordinate) clicked, then
         //dispose and go to next turn upon a button being clicked
         cellButton.addActionListener(e -> {
-            String buttonId = (char) ('A' + i) + String.valueOf(j);
-            System.out.println("You guessed: " + buttonId);
 
+            System.out.println("You guessed: " + buttonId);
             //store to server
             Service.setCurrentGuess(buttonId);
             dispose();

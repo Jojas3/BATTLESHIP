@@ -1,4 +1,6 @@
+Computer,0
 Steve,3
+Jess,4
 Bill,5
 Megan,5
 Gregory,7
