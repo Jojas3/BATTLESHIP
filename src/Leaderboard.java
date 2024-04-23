@@ -98,7 +98,6 @@ public class Leaderboard extends JFrame {
 
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
         add(mainPanel);
-
     }
 
     private void addPlayerToLeaderboard(Player newPlayer) {
