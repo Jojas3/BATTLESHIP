@@ -31,6 +31,7 @@ public class Service {
     //x bound, 0 inclusive
     private static final int xBound = (yBound.length() - 1);
 
+
     //getters and setters
     public static boolean isMultiplayer() {
         return multiplayer;
@@ -113,7 +114,6 @@ public class Service {
 
     public static void setP2Guesses(String p2Guess) {
         p2Guesses += (p2Guess+" ");
-        System.out.println(p2Guesses);
     }
 
     //+"" prevents p2guesses from returning null and throwing an error
