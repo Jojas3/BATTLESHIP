@@ -3,8 +3,7 @@ import java.awt.*;
 
 public class MainGame extends JFrame {
 
-    private static final int GRID_SIZE = 10;
-    private JButton[][] gridButtons;
+    private static final int GRID_SIZE = Service.getXBound()+1;
 
     private JPanel infoPanel;
     private JLabel yourTurn;
@@ -41,9 +40,6 @@ public class MainGame extends JFrame {
         //create panel for the grid
         JPanel gridPanel = new JPanel(new GridLayout(GRID_SIZE + 1, GRID_SIZE + 1));
 
-        //this line creates a square array of buttons that has area GRIDSIZExGRIDSIZE
-        gridButtons = new JButton[GRID_SIZE][GRID_SIZE];
-
         //add empty label for the top-left corner to fix spacing issues
         gridPanel.add(new JLabel(""));
 
@@ -62,24 +58,7 @@ public class MainGame extends JFrame {
             gridPanel.add(label);
 
             for (int j = 0; j < GRID_SIZE; j++) {
-                JButton cellButton = new JButton();
-                cellButton.setPreferredSize(new Dimension(50, 50)); //set the size of the buttons
-                gridButtons[i][j] = cellButton; //store button reference in the gridButtons array
-
-                //stores the button (coordinate) clicked, then
-                //dispose and go to next turn upon a button being clicked
-                int finalI = i;
-                int finalJ = j;
-                cellButton.addActionListener(e -> {
-                    String buttonId = (char) ('A' + finalI) + String.valueOf(finalJ);
-                    System.out.println("You guessed: " + buttonId);
-
-                    //store to server
-                    Service.setCurrentGuess(buttonId);
-                    dispose();
-                    Turn.Turns(isPlayerOne);
-                });
-
+                JButton cellButton = newButtonListener(isPlayerOne, i, j);
                 gridPanel.add(cellButton);
             }
         }
@@ -89,5 +68,23 @@ public class MainGame extends JFrame {
 
         pack();
         setLocationRelativeTo(null); //center the frame on the screen
+    }
+
+    private JButton newButtonListener(boolean isPlayerOne, int i, int j) {
+        JButton cellButton = new JButton();
+        cellButton.setPreferredSize(new Dimension(50, 50)); //set the size of the buttons
+
+        //stores the button (coordinate) clicked, then
+        //dispose and go to next turn upon a button being clicked
+        cellButton.addActionListener(e -> {
+            String buttonId = (char) ('A' + i) + String.valueOf(j);
+            System.out.println("You guessed: " + buttonId);
+
+            //store to server
+            Service.setCurrentGuess(buttonId);
+            dispose();
+            Turn.Turns(isPlayerOne);
+        });
+        return cellButton;
     }
 }

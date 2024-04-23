@@ -1,7 +1,5 @@
-import com.sun.tools.javac.Main;
-
 import javax.swing.*;
-import java.util.Arrays;
+import java.util.InputMismatchException;
 
 public class EnterInfo extends JFrame {
     private JPanel mainPanel;
@@ -12,21 +10,17 @@ public class EnterInfo extends JFrame {
     private JButton backButton;
     private JLabel p1Label;
     private JLabel p2Label;
+    private JLabel yLabel;
+    private JLabel spacer;
 
-    //storeShip will check to see if a user-entered ship coordinate is a valid input. If it is, then it will
-    //store that date. If it isn't, then it should throw an error and make the user enter another coord.
-    //Repeat until user enters a valid cord.
-
-    //see if you can modify the existing code in the Service class to help with this.
     public EnterInfo() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Enter Positions");
         add(mainPanel);
 
+        yLabel.setText("Y Bound: "+Service.getYBound().charAt(Service.getXBound())+"      X Bound: "+Service.getXBound());
+
         if(Service.isMultiplayer()){
-            passwordField1.setVisible(true);
-            passwordField2.setVisible(true);
-            p2Label.setVisible(true);
             System.out.println("Two player mode selected.");
         }else{
             System.out.println("One player mode selected.");
@@ -35,24 +29,14 @@ public class EnterInfo extends JFrame {
         }
 
         STARTGAMEButton.addActionListener(e-> {
-            //checksPassed will be false until the player coord checks pass
+            //checksPassed will be false until the player coord checks pass without exception
             boolean checksPassed = false;
 
-            //ask server to check if player coords are valid. if they are, then Service.checkCoord will set to appropriate variable. if not, throw error
             try {
-                Service.checkCoord(passwordField1.getPassword());
-                Ships.setCoord(passwordField1.getPassword(), 1);
-                //if MP, run the check for p2 coord.
-                //if not MP, generate random coords for the NPC
-                if(Service.isMultiplayer()) {
-                    Service.checkCoord(passwordField2.getPassword());
-                    Ships.setCoord(passwordField2.getPassword(), 2);
-                }else{
-                    Ships.placeShips();
-                }
+                Ships.placeShips(passwordField1, passwordField2);
                 //set i=1, indicating that the checks passed.
                 checksPassed = true;
-            } catch (Exception badInput){
+            } catch (InputMismatchException badInput){
                 JOptionPane.showMessageDialog(this, "Please enter a valid ship location. Hover over input box for further instruction.");
                 passwordField1.setText("");
                 passwordField2.setText("");
@@ -69,10 +53,11 @@ public class EnterInfo extends JFrame {
 
         backButton.addActionListener(e-> {
             dispose();
-
             new StartScreen().setVisible(true);
         });
 
+
+        //set window size and center
         setSize(1000, 900);
         setLocationRelativeTo(null);
     }

@@ -7,21 +7,20 @@ public class Turn{
         Random rand = new Random();
         System.out.println("\nComputer, it is your turn.");
 
-        String guess = "initialize", y;
+        String guess = "", y;
         int x;
 
-        while (!(Service.getP2Guesses().contains(guess))) {
+        while (Service.getP2Guesses().contains(guess)) {
             //generate random y coord
-            y = String.valueOf(Service.getyBound().charAt(rand.nextInt(Service.getyBound().length())));
+            y = String.valueOf(Service.getYBound().charAt(rand.nextInt(Service.getYBound().length())));
 
             //generate random x coord
-            x = rand.nextInt(Service.getxBound());
+            x = rand.nextInt(Service.getXBound()+1);
 
             guess = y + x;
-
-            Service.setP2Guesses(guess);
         }
-
+        //adds guess to list of guesses
+        Service.setP2Guesses(guess);
         System.out.println("The computer guessed: " + guess);
 
 
@@ -30,6 +29,7 @@ public class Turn{
             //mark a hit for the stats
             Service.setP2ShotsHit();
             Service.setGameStatus(false);
+
             new GameOver("The Computer Wins!").setVisible(true);
         } else {
             Service.setP2ShotsMiss();
@@ -41,7 +41,6 @@ public class Turn{
     private static void playerOne() {
         System.out.println("\nPlayer one, it is your turn.");
 
-        System.out.println("!!!!"+Service.getP2Location());
         if (Service.getP2Location().equals(Service.getCurrentGuess())) {
             System.out.println("HIT!");
             //mark a hit for the stats
@@ -77,7 +76,7 @@ public class Turn{
     }
 
     //turn goes until computer misses
-    public static void playerComputer() {
+    private static void playerComputer() {
         System.out.println("The computer is guessing your location...");
 
         computerGuess();
@@ -86,12 +85,12 @@ public class Turn{
     }
 
     public static void Turns(boolean player) {
-
+        //if it is player one's turn
         if (player) {
             //calculate outcome of turn
             playerOne();
 
-            //move to p2
+            //advance to p2 turn
             if(Service.isGameStatus()) {
                 if (Service.isMultiplayer()) {
                     new MainGame(false).setVisible(true);
@@ -103,6 +102,7 @@ public class Turn{
                 }
             }
         } else {
+            //calculate outcome of turn
             playerTwo();
             //advance to p1 turn
             if(Service.isGameStatus()) {

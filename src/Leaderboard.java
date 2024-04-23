@@ -35,7 +35,7 @@ public class Leaderboard extends JFrame {
         }
     }
 
-    //ViewMode removes ability to write new players to the leaderboard
+    //ViewMode removes user ability to write new players to the leaderboard
     public Leaderboard(boolean ViewMode, String result) {
         setTitle("Leaderboard");
         setSize(350, 400);
@@ -43,7 +43,7 @@ public class Leaderboard extends JFrame {
 
         leaderboardModel = new DefaultListModel<>();
         JList<Player> leaderboardList = new JList<>(leaderboardModel);
-
+        loadLeaderboardFromFile();
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(new JScrollPane(leaderboardList), BorderLayout.CENTER);
 
@@ -53,40 +53,40 @@ public class Leaderboard extends JFrame {
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             JTextField nameField = new JTextField(10);
+            JLabel nameLabel = new JLabel("Enter Your Name:");
 
-            JButton submitButton = new JButton("Save and Exit");
-            JButton exitButton = new JButton("Exit without Saving");
+            JButton submitButton = new JButton("Add to Leaderboard");
+            JButton exitButton = new JButton("Exit");
 
-            exitButton.addActionListener(e -> {
-                System.exit(0);
-            });
+            exitButton.addActionListener(e -> {System.exit(0);});
 
 
+            //add labels and fields to the panel
+            inputPanel.add(nameLabel);
+            inputPanel.add(nameField);
+            inputPanel.add(new JLabel("Number of Misses: "));
+            inputPanel.add(new JLabel(String.valueOf(Service.getLeastGuesses())));
+
+            //if the computer didn't win
             if(!result.toLowerCase().contains("computer")) {
                 submitButton.addActionListener(e -> {
                     String name = nameField.getText().trim();
                     if (!name.isEmpty()) {
                         Player newPlayer = new Player(name, Service.getLeastGuesses());
                         addPlayerToLeaderboard(newPlayer);
-                        saveLeaderboardToFile();
-
-                        dispose();
-                        new StartScreen().setVisible(true);
                     }
+                    inputPanel.remove(submitButton);
                 });
-
+                inputPanel.add(submitButton);
             }else{
-                Player newPlayer = new Player("Computer", Service.getLeastGuesses());
+                inputPanel.remove(nameField);
+                inputPanel.remove(nameLabel);
+                String name ="Computer";
+                Player newPlayer = new Player(name, Service.getLeastGuesses());
                 addPlayerToLeaderboard(newPlayer);
-                saveLeaderboardToFile();
             }
-
-            inputPanel.add(new JLabel("Enter Your Name:"));
-            inputPanel.add(nameField);
-            inputPanel.add(new JLabel("Number of Misses: "));
-            inputPanel.add(new JLabel(String.valueOf(Service.getLeastGuesses())));
-            inputPanel.add(submitButton);
             inputPanel.add(exitButton);
+
         }else {
             JButton mainMenuButton = new JButton("Main Menu");
             mainMenuButton.addActionListener(e -> {
@@ -99,7 +99,6 @@ public class Leaderboard extends JFrame {
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
         add(mainPanel);
 
-        loadLeaderboardFromFile();
     }
 
     private void addPlayerToLeaderboard(Player newPlayer) {
@@ -116,12 +115,19 @@ public class Leaderboard extends JFrame {
             newPlayer.setRank(leaderboardModel.size() + 1);
             leaderboardModel.addElement(newPlayer);
         }
-        if (leaderboardModel.size() > 5) {
-            leaderboardModel.removeElementAt(5);
-        }
         updateRanks();
-    }
 
+        final int MAX_LEADERBOARD_SIZE = 10;
+        if (leaderboardModel.size() > MAX_LEADERBOARD_SIZE) {
+            leaderboardModel.removeElementAt(MAX_LEADERBOARD_SIZE);
+        }
+
+        //save the leaderboard to the file after adding the player
+        saveLeaderboardToFile();
+
+        revalidate();
+        repaint();
+    }
     private void updateRanks() {
         for (int i = 0; i < leaderboardModel.size(); i++) {
             leaderboardModel.getElementAt(i).setRank(i + 1);
@@ -141,6 +147,8 @@ public class Leaderboard extends JFrame {
 
     private void loadLeaderboardFromFile() {
         File file = new File(FILENAME);
+
+        //dont do anything if there is no existing file
         if (!file.exists()) {
             return;
         }

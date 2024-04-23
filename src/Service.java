@@ -1,6 +1,4 @@
-import java.util.*;
-
-//pretend this is a server
+//pretend this is a server.
 public class Service {
 
     //set true when game is active, set false when game-over
@@ -13,8 +11,6 @@ public class Service {
 
     //Stores the current guess
     private static String currentGuess;
-
-    private boolean isMiss;
 
     //stats tracking p1
     private static int p1ShotsHit;
@@ -31,40 +27,11 @@ public class Service {
     private static String p2Location;
 
     //y letter bound
-    private static final String yBound = "abcdefghij";
-    private static final int xBound = 9;
-
-    //total number of ships a player has
-    private static final int shipsPerPlayer = 1;
-
-
-
+    private static final String yBound = "abcdef";
+    //x bound, 0 inclusive
+    private static final int xBound = (yBound.length() - 1);
 
     //getters and setters
-
-    //check if a coordinate entered into the gui is valid
-    public static void checkCoord(char[] password) throws InputMismatchException{
-        int x;
-        char y;
-        //check the length, if its valid assign x/y to temp variables
-        if (password.length == 2) {
-            x = password[1] - '0';
-            y = Character.toLowerCase(password[0]);
-        }else{
-            throw new InputMismatchException("Coordinate entered by Player is not length 2!");
-        }
-
-        //check if the inputs are within bounds,
-        if(x>=0 & xBound-x>=0 & yBound.indexOf(y)!=(-1)){
-            //.indexOf returns -1 if the character is not in the yBound
-            //do nothing if the coord is good
-        }else{
-            throw new InputMismatchException("Invalid coordinate given by player!");
-        }
-        System.out.println("Coordinate looks good!");
-    }
-
-
     public static boolean isMultiplayer() {
         return multiplayer;
     }
@@ -81,15 +48,11 @@ public class Service {
         return currentGuess;
     }
 
-    public static String getyBound() {
+    public static String getYBound() {
         return yBound;
     }
-    public static int getxBound(){
+    public static int getXBound(){
         return xBound;
-    }
-
-    public static int getShipsPerPlayer(){
-        return shipsPerPlayer;
     }
 
     public static String getP1Location() {
@@ -114,14 +77,6 @@ public class Service {
 
     public static void setGameStatus(boolean gameStatus) {
         Service.gameStatus = gameStatus;
-    }
-
-    public boolean isMiss() {
-        return isMiss;
-    }
-
-    public void setMiss(boolean miss) {
-        isMiss = miss;
     }
 
     public static int getP1ShotsHit() {
@@ -161,6 +116,7 @@ public class Service {
         System.out.println(p2Guesses);
     }
 
+    //+"" prevents p2guesses from returning null and throwing an error
     public static String getP2Guesses() {
         return p2Guesses+"";
     }
