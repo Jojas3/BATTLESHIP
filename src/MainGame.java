@@ -20,11 +20,11 @@ public class MainGame extends JFrame {
         //set player hits and misses
         if (isPlayerOne) {
             yourTurn.setText("Player 1, it is your turn. Click on your guess.");
-            playerHits.setText(String.valueOf(Service.getP1ShotsHit()));
+            playerHits.setText("0");
             playerMiss.setText(String.valueOf(Service.getP1ShotsMiss()));
         } else {
             yourTurn.setText("Player 2, it is your turn. Click on your guess.");
-            playerHits.setText(String.valueOf(Service.getP2ShotsHit()));
+            playerHits.setText("0");
             playerMiss.setText(String.valueOf(Service.getP2ShotsMiss()));
         }
 

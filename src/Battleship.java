@@ -9,7 +9,8 @@
 public class Battleship {
 
     public static void main(String[] args) {
-
+        Service.setMultiplayer(true);
+        System.out.println(Service.isMultiplayer());
         System.out.println("\nWELCOME TO BATTLESHIP!!!\n");
         StartScreen StartScreen = new StartScreen();
         StartScreen.setVisible(true);

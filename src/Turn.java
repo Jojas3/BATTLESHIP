@@ -28,7 +28,6 @@ public class Turn{
         if (Service.getP1Location().equals(guess)){
             System.out.println("HIT!");
             //mark a hit for the stats
-            Service.setP2ShotsHit();
             Service.setGameStatus(false);
 
             new GameOver("The Computer Wins!").setVisible(true);
@@ -44,8 +43,6 @@ public class Turn{
 
         if (Service.getP2Location().equals(Service.getCurrentGuess())) {
             System.out.println("HIT!");
-            //mark a hit for the stats
-            Service.setP1ShotsHit();
             Service.setGameStatus(false);
             new GameOver("Player One Wins!").setVisible(true);
         } else {
@@ -63,8 +60,6 @@ public class Turn{
 
         if (Service.getP1Location().equals(Service.getCurrentGuess())) {
             System.out.println("HIT!");
-            //mark a hit for the stats
-            Service.setP2ShotsHit();
 
             Service.setGameStatus(false);
             new GameOver("Player Two Wins!").setVisible(true);

@@ -1,131 +1,115 @@
-//pretend this is a server.
+import java.io.*;
+import java.net.*;
+
 public class Service {
+    private static final String SERVER_ADDRESS = "localhost";
+    private static final int SERVER_PORT = 8080;
 
-    //set true when game is active, set false when game-over
-    private static boolean gameStatus;
-    //True if two players, false if single player.
-    private static boolean multiplayer;
+    public static String get(String key) {
+        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-    //list of all guesses the computer has made
-    private static String p2Guesses;
+            out.println("GET " + key);
 
-    //Stores the current guess
-    private static String currentGuess;
-
-    //stats tracking p1
-    private static int p1ShotsHit;
-    private static int p1ShotsMiss;
-
-    //stats tracking p2
-    private static int p2ShotsHit;
-    private static int p2ShotsMiss;
-
-    //ship location, player1
-    private static String p1Location;
-
-    //ship location, player2
-    private static String p2Location;
-
-    //y letter bound
-    /**
-     * Y bound must be a string of letters in alphabetical order with a max value of j
-     */
-    private static final String yBound = "abcdefghij";
-    //x bound, 0 inclusive
-    private static final int xBound = (yBound.length()-1);
-
-
-    //getters and setters
-    public static boolean isMultiplayer() {
-        return multiplayer;
+            return in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public static void setMultiplayer(boolean multiplayer) {
-        Service.multiplayer = multiplayer;
-    }
+    public static void set(String key, String value) {
+        try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-    public static void setCurrentGuess(String buttonId) {
-        currentGuess = buttonId.toLowerCase();
-    }
-
-    public static String getCurrentGuess(){
-        return currentGuess;
-    }
-
-    public static String getYBound() {
-        return yBound;
-    }
-    public static int getXBound(){
-        return xBound;
-    }
-
-    public static String getP1Location() {
-        return p1Location;
-    }
-
-    public static void setP1Location(String location) {
-        p1Location = location;
-    }
-
-    public static String getP2Location() {
-        return p2Location;
-    }
-
-    public static void setP2Location(String location) {
-        p2Location = location;
+            out.println("POST " + key + "=" + value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean isGameStatus() {
-        return gameStatus;
+        String value = get("gameStatus");
+        return Boolean.parseBoolean(value);
     }
 
     public static void setGameStatus(boolean gameStatus) {
-        Service.gameStatus = gameStatus;
+        set("gameStatus", Boolean.toString(gameStatus));
     }
 
-    public static int getP1ShotsHit() {
-        return p1ShotsHit;
+    public static boolean isMultiplayer() {
+        String value = get("multiplayer");
+        return Boolean.parseBoolean(value);
     }
 
-    public static void setP1ShotsHit() {
-        p1ShotsHit+=1;
+    public static void setMultiplayer(boolean multiplayer) {
+        set("multiplayer", Boolean.toString(multiplayer));
+        System.out.println("Sent to server: "+Boolean.toString(multiplayer));
     }
 
+    public static String getCurrentGuess() {
+        return get("currentGuess");
+    }
+
+    public static void setCurrentGuess(String currentGuess) {
+        set("currentGuess", currentGuess);
+    }
+
+    public static String getP1Location() {
+        return get("p1Location");
+    }
+
+    public static void setP1Location(String p1Location) {
+        set("p1Location", p1Location);
+    }
+
+    public static String getP2Location() {
+        return get("p2Location");
+    }
+
+    public static void setP2Location(String p2Location) {
+        set("p2Location", p2Location);
+    }
     public static int getP1ShotsMiss() {
-        return p1ShotsMiss;
+        String value = get("p1ShotsMiss");
+        return Integer.parseInt(value);
     }
 
     public static void setP1ShotsMiss() {
-        p1ShotsMiss+=1;
-    }
-
-    public static int getP2ShotsHit() {
-        return p2ShotsHit;
-    }
-
-    public static void setP2ShotsHit() {
-        p2ShotsHit+=1;
+        int currentMisses = getP1ShotsMiss();
+        set("p1ShotsMiss", Integer.toString(currentMisses + 1));
     }
 
     public static int getP2ShotsMiss() {
-        return p2ShotsMiss;
+        String value = get("p2ShotsMiss");
+        return Integer.parseInt(value);
     }
 
     public static void setP2ShotsMiss() {
-        p2ShotsMiss+=1;
+        int currentMisses = getP2ShotsMiss();
+        set("p2ShotsMiss", Integer.toString(currentMisses + 1));
     }
 
-    public static void setP2Guesses(String p2Guess) {
-        p2Guesses += (p2Guess+" ");
-    }
-
-    //+"" prevents p2guesses from returning null and throwing an error
     public static String getP2Guesses() {
-        return p2Guesses+"";
+        return get("p2Guesses");
     }
 
-    public static int getLeastGuesses(){
-        return Math.min(p1ShotsMiss, p2ShotsMiss);
+    public static void setP2Guesses(String p2Guesses) {
+        set("p2Guesses", p2Guesses);
+    }
+
+    public static int getLeastGuesses() {
+        String value = get("leastGuesses");
+        return Integer.parseInt(value);
+    }
+
+    public static String getYBound() {
+        return get("yBound");
+    }
+
+    public static int getXBound() {
+        String value = get("xBound");
+        return Integer.parseInt(value);
     }
 }
-
