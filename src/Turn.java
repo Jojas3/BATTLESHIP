@@ -40,7 +40,6 @@ public class Turn{
     //player one turn
     private static void playerOne() {
         System.out.println("\nPlayer one, it is your turn.");
-
         if (Service.getP2Location().equals(Service.getCurrentGuess())) {
             System.out.println("HIT!");
             Service.setGameStatus(false);

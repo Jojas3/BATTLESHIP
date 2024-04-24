@@ -118,7 +118,7 @@ public class Leaderboard extends JFrame {
         //sort player order on leaderboard
         updateRanks();
 
-        final int MAX_LEADERBOARD_SIZE = 20;
+        final int MAX_LEADERBOARD_SIZE = 15;
         if (leaderboardModel.size() > MAX_LEADERBOARD_SIZE) {
             leaderboardModel.removeElementAt(MAX_LEADERBOARD_SIZE);
         }

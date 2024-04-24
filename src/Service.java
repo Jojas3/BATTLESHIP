@@ -11,10 +11,10 @@ public class Service {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             out.println("GET " + key);
-
             return in.readLine();
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to get value from server :(");
             return null;
         }
     }
@@ -23,9 +23,10 @@ public class Service {
         try (Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            out.println("POST " + key + "=" + value);
+            out.println("POST " + key + " " + value);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to send value to server :(");
         }
     }
 
@@ -45,11 +46,10 @@ public class Service {
 
     public static void setMultiplayer(boolean multiplayer) {
         set("multiplayer", Boolean.toString(multiplayer));
-        System.out.println("Sent to server: "+Boolean.toString(multiplayer));
     }
 
     public static String getCurrentGuess() {
-        return get("currentGuess");
+        return String.valueOf(get("currentGuess"));
     }
 
     public static void setCurrentGuess(String currentGuess) {
@@ -71,14 +71,14 @@ public class Service {
     public static void setP2Location(String p2Location) {
         set("p2Location", p2Location);
     }
+
     public static int getP1ShotsMiss() {
         String value = get("p1ShotsMiss");
         return Integer.parseInt(value);
     }
 
     public static void setP1ShotsMiss() {
-        int currentMisses = getP1ShotsMiss();
-        set("p1ShotsMiss", Integer.toString(currentMisses + 1));
+        set("p1ShotsMiss", null);
     }
 
     public static int getP2ShotsMiss() {
@@ -87,8 +87,7 @@ public class Service {
     }
 
     public static void setP2ShotsMiss() {
-        int currentMisses = getP2ShotsMiss();
-        set("p2ShotsMiss", Integer.toString(currentMisses + 1));
+        set("p2ShotsMiss", null);
     }
 
     public static String getP2Guesses() {
@@ -113,3 +112,4 @@ public class Service {
         return Integer.parseInt(value);
     }
 }
+
