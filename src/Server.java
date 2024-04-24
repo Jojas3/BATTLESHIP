@@ -95,7 +95,7 @@ public class Server {
                 case "yBound" -> yBound;
                 case "xBound" -> Integer.toString((yBound.length() - 1));
                 case "leastGuesses" -> Integer.toString(Math.min(p1ShotsMiss, p2ShotsMiss));
-                default -> "Unknown key";
+                default -> "Unknown Key";
             };
         }
 
